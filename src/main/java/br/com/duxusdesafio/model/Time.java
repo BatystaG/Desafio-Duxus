@@ -1,6 +1,6 @@
 package br.com.duxusdesafio.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
