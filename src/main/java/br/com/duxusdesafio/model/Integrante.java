@@ -1,5 +1,6 @@
 package br.com.duxusdesafio.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -8,6 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "integrante")
+@JsonSerialize
 public class Integrante {
 	
 	@Id
