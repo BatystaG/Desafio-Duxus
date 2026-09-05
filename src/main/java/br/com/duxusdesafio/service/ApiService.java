@@ -68,7 +68,28 @@ public class ApiService {
      */
     public Time timeDaData(LocalDate data, List<Time> todosOsTimes){
         // TODO Implementar método seguindo as instruções!
-        return null;
+        //Caso existam mais de um time cadastrados na mesma data, retorna o ultimo cadastrado, pelo maior ID.
+
+        if (todosOsTimes == null) {
+            return null;
+        }
+
+        Time timeDaData = null;
+
+        for (Time time : todosOsTimes) {
+
+            if (time != null && data.equals(time.getData())) {
+
+                if (timeDaData == null
+                        || time.getId() > timeDaData.getId()) {
+
+                    timeDaData = time;
+                }
+            }
+        }
+
+        return timeDaData;
+
     }
 
     /**
