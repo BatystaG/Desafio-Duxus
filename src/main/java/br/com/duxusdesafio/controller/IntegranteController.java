@@ -2,20 +2,25 @@ package br.com.duxusdesafio.controller;
 
 import br.com.duxusdesafio.dto.IntegranteDto;
 import br.com.duxusdesafio.model.Integrante;
+import br.com.duxusdesafio.model.Time;
+import br.com.duxusdesafio.repository.TimeRepository;
 import br.com.duxusdesafio.service.ApiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/integrante")
 public class IntegranteController {
     @Autowired
     private ApiService apiService;
+    @Autowired
+    private TimeRepository timeRepository;
 
     @PostMapping("/cadastro")
     public ResponseEntity<Integrante> cadastrar(@RequestBody IntegranteDto dto){
@@ -28,6 +33,37 @@ public class IntegranteController {
 
         Integrante integrante = apiService.cadastrarIntegrante(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(integrante);
+
+    }
+
+    @GetMapping("/consultaIntegranteMaisUsado")
+
+    //Utiliza diretamente o timeRepository para buscar os times e repassa ao metodo da ApiService,
+    // pois recebe do front apenas as datas
+
+    public ResponseEntity<Integrante> consultaIntegranteMaisUsado(
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataInicial,
+
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataFinal){
+
+        if(dataInicial == null || dataFinal == null){
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<Time> todosOsTimes = timeRepository.findAll();
+
+        Integrante integranteMaisUsado = apiService.integranteMaisUsado(dataInicial, dataFinal, todosOsTimes);
+
+        if (integranteMaisUsado == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+
+        return ResponseEntity.ok(integranteMaisUsado);
 
     }
 }

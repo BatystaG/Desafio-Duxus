@@ -41,7 +41,7 @@ public class TimeController {
     @GetMapping("/consultaTimeDaData")
 
     //Utiliza diretamente o timeRepository para buscar os times e repassa ao metodo da ApiService,
-    // pois o recebe do front apenas a data
+    // pois recebe do front apenas a data
 
     public ResponseEntity<Time> consultaTimeDaData(
             @RequestParam

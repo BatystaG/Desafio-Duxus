@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -98,7 +99,44 @@ public class ApiService {
      */
     public Integrante integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
         // TODO Implementar método seguindo as instruções!
-        return null;
+        // Nesta solução estamos assumindo que não é possivel cadastrar um Intregrante mais de uma vez no mesmo time,
+        // Tambem não estamos considerando a possibilidade de empate, em caso de empate podemos estabelecer o críterio de desempate para implementação futura.
+
+        if (todosOsTimes == null) {
+            return null;
+        }
+
+        Map<Long, Integer> quantidadePorIntegrante = new HashMap<>();
+
+        Integrante integranteMaisUsado = null;
+        int maiorQuantidade = 0;
+
+        for (Time time : todosOsTimes) {
+
+            boolean dentroDoPeriodo = time.getData().isBefore(dataFinal) && time.getData().isAfter(dataInicial);
+
+            if (dentroDoPeriodo) {
+
+                for (ComposicaoTime composicao : time.getComposicaoTime()) {
+
+                    Integrante integrante = composicao.getIntegrante();
+                    Long integranteId = integrante.getId();
+
+                    int novaQuantidade =
+                            quantidadePorIntegrante.getOrDefault(integranteId, 0) + 1;
+
+                    quantidadePorIntegrante.put(integranteId, novaQuantidade);
+
+                    if (novaQuantidade > maiorQuantidade) {
+                        maiorQuantidade = novaQuantidade;
+                        integranteMaisUsado = integrante;
+                    }
+                }
+            }
+        }
+
+        return integranteMaisUsado;
+
     }
 
     /**
