@@ -20,4 +20,12 @@ public class IntegranteDto {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public boolean possuiNomeOuFuncaoNulo() {
+        return nome == null || funcao == null;
+    }
+
+    public boolean possuiNomeOuFuncaoVazio() {
+        return nome.isEmpty() || funcao.isEmpty();
+    }
 }
