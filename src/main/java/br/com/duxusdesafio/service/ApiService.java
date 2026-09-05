@@ -1,13 +1,17 @@
 package br.com.duxusdesafio.service;
 
 import br.com.duxusdesafio.dto.IntegranteDto;
+import br.com.duxusdesafio.dto.TimeDto;
+import br.com.duxusdesafio.model.ComposicaoTime;
 import br.com.duxusdesafio.model.Integrante;
 import br.com.duxusdesafio.model.Time;
 import br.com.duxusdesafio.repository.IntegranteRepository;
+import br.com.duxusdesafio.repository.TimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +29,38 @@ public class ApiService {
 
     @Autowired
     private IntegranteRepository integranteRepository;
+    @Autowired
+    private TimeRepository timeRepository;
 
     public Integrante cadastrarIntegrante(IntegranteDto dto){
         Integrante integrante = new Integrante();
         integrante.setNome(dto.getNome());
         integrante.setFuncao(dto.getFuncao());
         return integranteRepository.save(integrante);
+    }
+
+    public Time cadastrarTime(TimeDto dto){
+        Time time = new Time();
+        time.setNomeDoClube(dto.getNomeDoClube());
+        time.setData(dto.getData());
+
+        List<Integrante> integrantes = integranteRepository.findAllById(dto.getIntegrantesIds());
+        List<ComposicaoTime> composicoes = new ArrayList<>();
+
+        for (Integrante integrante : integrantes) {
+
+            ComposicaoTime composicao = new ComposicaoTime();
+
+            composicao.setTime(time);
+            composicao.setIntegrante(integrante);
+
+            composicoes.add(composicao);
+        }
+
+        time.setComposicaoTime(composicoes);
+
+        return timeRepository.save(time);
+
     }
 
     /**

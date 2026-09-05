@@ -26,6 +26,6 @@ public class IntegranteDto {
     }
 
     public boolean possuiNomeOuFuncaoVazio() {
-        return nome.isEmpty() || funcao.isEmpty();
+        return nome.isBlank() || funcao.isBlank();
     }
 }

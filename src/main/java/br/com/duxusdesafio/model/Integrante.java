@@ -1,5 +1,6 @@
 package br.com.duxusdesafio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +26,7 @@ public class Integrante {
 	private String funcao;
 	
 	@OneToMany(mappedBy = "integrante")
+	@JsonIgnore
 	private List<ComposicaoTime> composicaoTime;
 
 
