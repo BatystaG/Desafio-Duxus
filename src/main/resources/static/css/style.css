@@ -249,4 +249,129 @@ body {
     .painel-formulario {
         padding: 22px 18px;
     }
+
+    .grupo-integrantes {
+        min-width: 0;
+        margin: 0 0 24px;
+        padding: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .grupo-integrantes legend {
+        padding: 0 6px;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+    .texto-auxiliar {
+        margin: 5px 0 18px;
+    }
+
+    .campo-integrante {
+        margin-bottom: 18px;
+    }
+
+    .lista-selecionados {
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        border-radius: 4px;
+    }
+
+    .cabecalho-selecionados,
+    .integrante-selecionado {
+        display: grid;
+        grid-template-columns:
+        minmax(100px, 1.4fr)
+        minmax(80px, 1fr)
+        auto;
+
+        align-items: center;
+        gap: 12px;
+    }
+
+    .cabecalho-selecionados {
+        padding: 10px 12px;
+        background-color: var(--cor-laranja);
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .integrante-selecionado {
+        padding: 11px 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+        background-color: #050550;
+    }
+
+    .integrante-selecionado:last-child {
+        border-bottom: 0;
+    }
+
+    .integrante-selecionado:nth-child(even) {
+        background-color: #101065;
+    }
+
+    .coluna-nome {
+        font-weight: 700;
+        overflow-wrap: anywhere;
+    }
+
+    .coluna-funcao {
+        color: #dedede;
+        overflow-wrap: anywhere;
+    }
+
+    .botao-remover-integrante {
+        padding: 7px 10px;
+        border: 0;
+        border-radius: 3px;
+        cursor: pointer;
+        background-color: #a52323;
+        color: #ffffff;
+        font-family: inherit;
+        font-weight: 700;
+    }
+
+    .botao-remover-integrante:hover {
+        background-color: #c02b2b;
+    }
+
+    .estado-lista {
+        margin: 0;
+        padding: 14px 12px;
+    }
+
+    .erro-lista {
+        color: #ffb6b6;
+    }
+
+    @media (max-width: 500px) {
+
+        .cabecalho-selecionados {
+            display: none;
+        }
+
+        .integrante-selecionado {
+            grid-template-columns:
+            minmax(0, 1fr)
+            auto;
+
+            gap: 4px 10px;
+        }
+
+        .integrante-selecionado .coluna-nome {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .integrante-selecionado .coluna-funcao {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .botao-remover-integrante {
+            grid-column: 2;
+            grid-row: 1 / 3;
+        }
+    }
 }

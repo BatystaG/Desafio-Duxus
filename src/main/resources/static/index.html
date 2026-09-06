@@ -118,7 +118,7 @@
                                 type="text"
                                 id="nomeDoClube"
                                 maxlength="100"
-                                placeholder="Ex.: Falcons"
+                                placeholder="Ex.: G2"
                                 required
                         >
                     </div>
@@ -138,16 +138,38 @@
                         <legend>Integrantes da equipe</legend>
 
                         <p class="texto-auxiliar">
-                            Marque pelo menos um integrante cadastrado.
+                            Escolha os integrantes que farão parte da equipe.
                         </p>
 
-                        <div id="listaIntegrantes"
-                             class="lista-integrantes"
-                             aria-live="polite">
+                        <div class="campo campo-integrante">
+                            <label for="selectIntegrante">
+                                Adicionar integrante
+                            </label>
 
-                            <p class="estado-lista">
-                                Carregando integrantes...
-                            </p>
+                            <select id="selectIntegrante" disabled>
+                                <option value="">
+                                    Carregando integrantes...
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="lista-selecionados">
+
+                            <div class="cabecalho-selecionados">
+                                <span>Nome</span>
+                                <span>Função</span>
+                                <span>Ação</span>
+                            </div>
+
+                            <div
+                                    id="integrantesSelecionados"
+                                    class="integrantes-selecionados"
+                                    aria-live="polite"
+                            >
+                                <p class="estado-lista">
+                                    Nenhum integrante selecionado.
+                                </p>
+                            </div>
 
                         </div>
 

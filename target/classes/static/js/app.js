@@ -12,8 +12,20 @@ const secoes = document.querySelectorAll(".secao-tela");
 const formIntegrante = document.getElementById("formIntegrante");
 const formTime = document.getElementById("formTime");
 
-const listaIntegrantes =
-    document.getElementById("listaIntegrantes");
+const selectIntegrante =
+    document.getElementById("selectIntegrante");
+
+const listaIntegrantesSelecionados =
+    document.getElementById("integrantesSelecionados");
+
+let integrantesDisponiveis = [];
+
+/*
+ * Map com:
+ * chave = ID
+ * valor = objeto do integrante
+ */
+const integrantesEscolhidos = new Map();
 
 const mensagemIntegrante =
     document.getElementById("mensagemIntegrante");
@@ -84,39 +96,193 @@ function exibirMensagem(elemento, texto, tipo) {
 /*
  * Cria visualmente um integrante com checkbox
  */
-function criarOpcaoIntegrante(integrante) {
+function ordenarIntegrantes(integrantes) {
 
-    const label = document.createElement("label");
-    label.className = "opcao-integrante";
-
-    const checkbox = document.createElement("input");
-
-    checkbox.type = "checkbox";
-    checkbox.name = "integrantesIds";
-    checkbox.value = integrante.id;
-
-    const descricao = document.createElement("span");
-
-    descricao.textContent = integrante.funcao
-        ? `${integrante.nome} — ${integrante.funcao}`
-        : integrante.nome;
-
-    label.append(
-        checkbox,
-        descricao
+    return integrantes.sort((primeiro, segundo) =>
+        primeiro.nome.localeCompare(
+            segundo.nome,
+            "pt-BR",
+            {
+                sensitivity: "base"
+            }
+        )
     );
-
-    return label;
 }
 
 
-/*
- * Busca todos os integrantes cadastrados
- */
+function atualizarSelectIntegrantes() {
+
+    selectIntegrante.innerHTML = "";
+
+    const integrantesRestantes =
+        ordenarIntegrantes(
+            integrantesDisponiveis
+                .filter(integrante =>
+                    !integrantesEscolhidos.has(
+                        Number(integrante.id)
+                    )
+                )
+        );
+
+    const primeiraOpcao =
+        document.createElement("option");
+
+    primeiraOpcao.value = "";
+
+    if (integrantesRestantes.length > 0) {
+        primeiraOpcao.textContent =
+            "Selecione um integrante";
+    } else if (integrantesDisponiveis.length > 0) {
+        primeiraOpcao.textContent =
+            "Todos os integrantes foram adicionados";
+    } else {
+        primeiraOpcao.textContent =
+            "Nenhum integrante cadastrado";
+    }
+
+    selectIntegrante.appendChild(primeiraOpcao);
+
+    integrantesRestantes.forEach(integrante => {
+
+        const opcao =
+            document.createElement("option");
+
+        opcao.value = integrante.id;
+
+        opcao.textContent =
+            `${integrante.nome} — ${integrante.funcao}`;
+
+        selectIntegrante.appendChild(opcao);
+    });
+
+    selectIntegrante.disabled =
+        integrantesRestantes.length === 0;
+}
+
+
+function atualizarListaDeSelecionados() {
+
+    listaIntegrantesSelecionados.innerHTML = "";
+
+    if (integrantesEscolhidos.size === 0) {
+
+        const mensagem =
+            document.createElement("p");
+
+        mensagem.className = "estado-lista";
+
+        mensagem.textContent =
+            "Nenhum integrante selecionado.";
+
+        listaIntegrantesSelecionados.appendChild(
+            mensagem
+        );
+
+        return;
+    }
+
+    const selecionadosOrdenados =
+        ordenarIntegrantes(
+            Array.from(integrantesEscolhidos.values())
+        );
+
+    selecionadosOrdenados.forEach(integrante => {
+
+        const linha =
+            document.createElement("div");
+
+        linha.className =
+            "integrante-selecionado";
+
+        const nome =
+            document.createElement("span");
+
+        nome.className = "coluna-nome";
+        nome.textContent = integrante.nome;
+
+        const funcao =
+            document.createElement("span");
+
+        funcao.className = "coluna-funcao";
+        funcao.textContent = integrante.funcao;
+
+        const botaoRemover =
+            document.createElement("button");
+
+        botaoRemover.type = "button";
+        botaoRemover.className =
+            "botao-remover-integrante";
+
+        botaoRemover.textContent = "Remover";
+
+        botaoRemover.setAttribute(
+            "aria-label",
+            `Remover ${integrante.nome}`
+        );
+
+        botaoRemover.addEventListener(
+            "click",
+            () => {
+
+                integrantesEscolhidos.delete(
+                    Number(integrante.id)
+                );
+
+                atualizarListaDeSelecionados();
+                atualizarSelectIntegrantes();
+            }
+        );
+
+        linha.append(
+            nome,
+            funcao,
+            botaoRemover
+        );
+
+        listaIntegrantesSelecionados.appendChild(
+            linha
+        );
+    });
+}
+
+
+selectIntegrante.addEventListener(
+    "change",
+    () => {
+
+        const integranteId =
+            Number(selectIntegrante.value);
+
+        if (!integranteId) {
+            return;
+        }
+
+        const integrante =
+            integrantesDisponiveis.find(item =>
+                Number(item.id) === integranteId
+            );
+
+        if (!integrante) {
+            return;
+        }
+
+        integrantesEscolhidos.set(
+            integranteId,
+            integrante
+        );
+
+        atualizarListaDeSelecionados();
+        atualizarSelectIntegrantes();
+    }
+);
+
+
 async function carregarIntegrantes() {
 
-    listaIntegrantes.innerHTML =
-        '<p class="estado-lista">Carregando integrantes...</p>';
+    selectIntegrante.disabled = true;
+
+    selectIntegrante.innerHTML =
+        '<option value="">Carregando integrantes...</option>';
 
     try {
 
@@ -130,50 +296,63 @@ async function carregarIntegrantes() {
             );
         }
 
-        const integrantes = await response.json();
+        const resultado = await response.json();
 
-        listaIntegrantes.innerHTML = "";
-
-        if (integrantes.length === 0) {
-
-            listaIntegrantes.innerHTML =
-                '<p class="estado-lista">Nenhum integrante cadastrado.</p>';
-
-            return;
+        if (!Array.isArray(resultado)) {
+            throw new Error(
+                "O backend não retornou uma lista de integrantes."
+            );
         }
 
-        integrantes
-            .sort((primeiro, segundo) =>
-                primeiro.id - segundo.id
+        integrantesDisponiveis = resultado;
+
+        /*
+         * Remove da seleção algum integrante que
+         * eventualmente não exista mais no backend.
+         */
+        const idsExistentes = new Set(
+            integrantesDisponiveis.map(
+                integrante => Number(integrante.id)
             )
-            .forEach(integrante => {
+        );
 
-                const opcao =
-                    criarOpcaoIntegrante(integrante);
+        integrantesEscolhidos.forEach(
+            (integrante, id) => {
 
-                listaIntegrantes.appendChild(opcao);
-            });
+                if (!idsExistentes.has(id)) {
+                    integrantesEscolhidos.delete(id);
+                }
+            }
+        );
+
+        atualizarSelectIntegrantes();
+        atualizarListaDeSelecionados();
 
     } catch (erro) {
 
-        listaIntegrantes.innerHTML = "";
+        selectIntegrante.innerHTML =
+            '<option value="">Erro ao carregar integrantes</option>';
 
-        const mensagemErro =
-            document.createElement("p");
+        selectIntegrante.disabled = true;
 
-        mensagemErro.className =
-            "estado-lista erro-lista";
+        if (integrantesEscolhidos.size === 0) {
 
-        mensagemErro.textContent =
-            `${erro.message} Confirme o endpoint GET /integrante/listar.`;
+            listaIntegrantesSelecionados.innerHTML = "";
 
-        listaIntegrantes.appendChild(
-            mensagemErro
-        );
+            const mensagem =
+                document.createElement("p");
+
+            mensagem.className =
+                "estado-lista erro-lista";
+
+            mensagem.textContent = erro.message;
+
+            listaIntegrantesSelecionados.appendChild(
+                mensagem
+            );
+        }
     }
 }
-
-
 /*
  * Cadastro de integrante
  */
@@ -283,13 +462,8 @@ formTime.addEventListener(
         /*
          * Busca apenas os checkboxes selecionados.
          */
-        const integrantesIds = Array.from(
-            listaIntegrantes.querySelectorAll(
-                'input[name="integrantesIds"]:checked'
-            )
-        ).map(checkbox =>
-            Number(checkbox.value)
-        );
+        const integrantesIds =
+            Array.from(integrantesEscolhidos.keys());
 
         if (integrantesIds.length === 0) {
 
@@ -350,6 +524,11 @@ formTime.addEventListener(
                 await response.json();
 
             formTime.reset();
+
+            integrantesEscolhidos.clear();
+
+            atualizarListaDeSelecionados();
+            atualizarSelectIntegrantes();
 
             exibirMensagem(
                 mensagemTime,
