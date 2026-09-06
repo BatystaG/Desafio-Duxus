@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Service que possuirá as regras de negócio para o processamento dos dados
@@ -329,7 +326,44 @@ public class ApiService {
      */
     public Map<String, Long> contagemPorFuncao(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
         // TODO Implementar método seguindo as instruções!
-        return null;
+
+        if (todosOsTimes == null) {
+            return null;
+        }
+
+        Map<String, Long> quantidadePorFuncao = new HashMap<>();
+        Set<Long> integrantesJaContados = new HashSet<>();
+
+        for (Time time : todosOsTimes) {
+
+            boolean respeitaDataInicial = dataInicial == null || !time.getData().isBefore(dataInicial);
+
+            boolean respeitaDataFinal = dataFinal == null || !time.getData().isAfter(dataFinal);
+
+            boolean dentroDoPeriodo = respeitaDataInicial && respeitaDataFinal;
+
+            if (dentroDoPeriodo) {
+
+                for (ComposicaoTime composicao : time.getComposicaoTime()) {
+
+                    Integrante integrante = composicao.getIntegrante();
+                    Long integranteId = integrante.getId();
+
+                    if (integrantesJaContados.add(integranteId)) {
+
+                        String funcao = integrante.getFuncao();
+
+                        long novaQuantidade = quantidadePorFuncao.getOrDefault(funcao, 0L) + 1L;
+
+                        quantidadePorFuncao.put(funcao, novaQuantidade);
+
+                    }
+
+                }
+            }
+        }
+
+        return quantidadePorFuncao;
     }
 
 }
