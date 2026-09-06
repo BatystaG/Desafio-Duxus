@@ -48,7 +48,7 @@ body {
     margin: 0;
     color: var(--cor-branca);
     font-size: 34px;
-    font-weight: 700;
+    font-weight: 400;
     line-height: 1;
     letter-spacing: 0.5px;
     font-family: "Russo One", "Arial Rounded MT Bold", sans-serif;
@@ -83,7 +83,7 @@ body {
 .menu-principal a {
     color: var(--cor-branca);
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 400;
     line-height: 1.3;
     text-decoration: none;
     white-space: nowrap;
@@ -98,7 +98,7 @@ body {
 .separador {
     color: var(--cor-branca);
     font-size: 27px;
-    font-weight: 600;
+    font-weight: 400;
     line-height: 1;
 }
 
@@ -109,6 +109,7 @@ body {
 }
 
 .painel-formulario {
+    position: relative;
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
@@ -118,11 +119,21 @@ body {
     box-shadow: 0 8px 24px rgb(0 0 0 / 25%);
 }
 
+.decoracao-octane {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    width: 160px;
+    height: auto;
+    pointer-events: none;
+    z-index: 2;
+}
+
 .painel-formulario h2 {
     margin: 0 0 24px;
     color: var(--cor-branca);
     font-size: 27px;
-    font-weight: 700;
+    font-weight: 400;
 }
 
 .campo {
@@ -134,7 +145,7 @@ body {
     margin-bottom: 7px;
     color: var(--cor-branca);
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 .campo input,
@@ -167,7 +178,7 @@ body {
     color: var(--cor-branca);
     font-family: "Russo One", sans-serif;
     font-size: 17px;
-    font-weight: 700;
+    font-weight: 400;
     transition:
             background-color 0.2s ease,
             transform 0.1s ease;
@@ -210,7 +221,7 @@ body {
 .grupo-integrantes legend {
     padding: 0 7px;
     font-size: 17px;
-    font-weight: 700;
+    font-weight: 400;
 }
 
 .texto-auxiliar {
@@ -248,7 +259,7 @@ body {
     background-color: rgba(255, 152, 0, 0.14);
     color: #ffffff;
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 400;
 }
 
 .cabecalho-selecionados span:nth-child(2) {
@@ -280,7 +291,7 @@ body {
 }
 
 .coluna-nome {
-    font-weight: 700;
+    font-weight: 400;
 }
 
 .coluna-funcao {
@@ -309,7 +320,7 @@ body {
 
     font-family: "Russo One", Arial, sans-serif;
     font-size: 26px;
-    font-weight: 700;
+    font-weight: 400;
     line-height: 1;
 
     transition:
@@ -344,7 +355,240 @@ body {
     color: #ffb6b6;
 }
 
+.painel-consultas {
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 28px;
+    background-color: var(--cor-painel);
+    border-top: 5px solid var(--cor-laranja);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 25%);
+}
+
+.painel-consultas h2 {
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 3px solid var(--cor-laranja);
+    color: var(--cor-branca);
+    font-size: 27px;
+    font-weight: 400;
+}
+
+.grade-consultas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.grade-consultas--dupla {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grade-consultas + .grade-consultas {
+    margin-top: 24px;
+}
+
+.cartao-consulta {
+    padding: 20px;
+    background-color: var(--cor-azul);
+    border-radius: 4px;
+    box-shadow: 0 6px 16px rgb(0 0 0 / 20%);
+}
+
+.cartao-consulta h3 {
+    margin: 0 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--cor-laranja);
+    color: var(--cor-laranja);
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.filtro-datas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.campo-data {
+    flex: 1 1 120px;
+    min-width: 0;
+}
+
+.campo-data label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--cor-branca);
+    font-size: 14px;
+}
+
+.campo-data input {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    border: 2px solid var(--cor-laranja);
+    border-radius: 3px;
+    background-color: transparent;
+    color: var(--cor-branca);
+    color-scheme: dark;
+    font-family: "Russo One", sans-serif;
+    font-size: 14px;
+}
+
+.botao-consultar {
+    height: 42px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: var(--cor-laranja);
+    color: var(--cor-branca);
+    font-family: "Russo One", sans-serif;
+    font-size: 15px;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+.botao-consultar:hover {
+    background-color: #e98900;
+}
+
+.botao-consultar--bloco {
+    width: 100%;
+    margin-top: 4px;
+}
+
+.resultado-consulta {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 4px;
+    background-color: var(--cor-painel);
+}
+
+.resultado-titulo {
+    display: block;
+    color: var(--cor-branca);
+    font-size: 24px;
+}
+
+.resultado-subtitulo {
+    display: block;
+    margin-top: 4px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 14px;
+}
+
+.tabela-resultado {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.tabela-resultado th,
+.tabela-resultado td {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.tabela-resultado thead th {
+    background-color: rgba(255, 152, 0, 0.14);
+    color: var(--cor-branca);
+    border-bottom: 2px solid var(--cor-laranja);
+    font-weight: 400;
+}
+
+.tabela-resultado tbody tr {
+    background-color: var(--cor-painel);
+}
+
+.tabela-resultado tbody tr:nth-child(even) {
+    background-color: #101065;
+}
+
+.tabela-resultado td {
+    color: var(--cor-branca);
+}
+
+.lista-resultado {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.lista-resultado li {
+    padding: 12px 14px;
+    background-color: var(--cor-painel);
+    color: var(--cor-branca);
+    font-size: 14px;
+}
+
+.lista-resultado li:nth-child(even) {
+    background-color: #101065;
+}
+
+.grafico-barras {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.barra-item {
+    display: grid;
+    grid-template-columns: 90px 1fr 32px;
+    align-items: center;
+    gap: 12px;
+}
+
+.barra-rotulo {
+    color: var(--cor-branca);
+    font-size: 14px;
+}
+
+.barra-trilha {
+    height: 20px;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+
+.barra-preenchimento {
+    height: 100%;
+    border-radius: 3px;
+    background-color: var(--cor-laranja);
+}
+
+.barra-valor {
+    color: var(--cor-branca);
+    font-size: 14px;
+    text-align: right;
+}
+
+
 @media (max-width: 760px) {
+
+    .decoracao-octane {
+        display: none;
+    }
+
+    .app-container {
+        min-height: 100vh;
+    }
+
+    .painel-consultas {
+    padding: 20px 16px;
+    }
+
+    .grade-consultas,
+    .grade-consultas--dupla {
+        grid-template-columns: 1fr;
+    }
+
 
     .app-container {
         min-height: 100vh;

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,206 +10,349 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link
-            href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap"
-            rel="stylesheet"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-<div class="app-container">
+    <div class="app-container">
 
-    <header class="cabecalho">
-        <h1>Rocket League Champions</h1>
-    </header>
+        <header class="cabecalho">
+            <h1>Rocket League Champions</h1>
+        </header>
 
-    <div class="banner">
-        <img
-                src="/images/Banner%20Rocket%20League.jpg"
-                alt="Carros disputando uma partida de Rocket League"
-        >
-    </div>
+        <div class="banner">
+            <img src="/images/Banner%20Rocket%20League.jpg" alt="Carros disputando uma partida de Rocket League">
+        </div>
 
-    <nav class="menu-principal" aria-label="Navegação principal">
+        <nav class="menu-principal" aria-label="Navegação principal">
 
-        <a href="#integrantes"
-           class="ativo"
-           data-tela="integrantes">
-            Cadastro de Integrantes
-        </a>
+            <a href="#integrantes" class="ativo" data-tela="integrantes">
+                Cadastro de Integrantes
+            </a>
 
-        <span class="separador">|</span>
+            <span class="separador">|</span>
 
-        <a href="#equipes"
-           data-tela="equipes">
-            Cadastro de Equipes
-        </a>
+            <a href="#equipes" data-tela="equipes">
+                Cadastro de Equipes
+            </a>
 
-        <span class="separador">|</span>
+            <span class="separador">|</span>
 
-        <a href="#consultas"
-           data-tela="consultas">
-            Consultas e Estatísticas
-        </a>
+            <a href="#consultas" data-tela="consultas">
+                Consultas e Estatísticas
+            </a>
 
-    </nav>
+        </nav>
 
-    <main class="conteudo">
-        <section id="secao-integrantes" class="secao-tela">
+        <main class="conteudo">
+            <section id="secao-integrantes" class="secao-tela">
 
-            <div class="painel-formulario">
+                <div class="painel-formulario">
 
-                <h2>Cadastro de Integrantes</h2>
+                    <img src="/images/octane-laranja-equipe-laranja.png" alt="" class="decoracao-octane"
+                        aria-hidden="true">
 
-                <form id="formIntegrante">
+                    <h2>Cadastro de Integrantes</h2>
 
-                    <div class="campo">
-                        <label for="nomeIntegrante">Nome</label>
+                    <form id="formIntegrante">
 
-                        <input
-                                type="text"
-                                id="nomeIntegrante"
-                                maxlength="100"
-                                placeholder="Ex.: yANXNZ"
-                                required
-                        >
-                    </div>
+                        <div class="campo">
+                            <label for="nomeIntegrante">Nome</label>
 
-                    <div class="campo">
-                        <label for="funcaoIntegrante">Função</label>
+                            <input type="text" id="nomeIntegrante" maxlength="100" placeholder="Ex.: yANXNZ"
+                                required>
+                        </div>
 
-                        <select id="funcaoIntegrante" required>
-                            <option value="">Selecione uma função</option>
-                            <option value="ATACANTE">Atacante</option>
-                            <option value="GOLEIRO">Goleiro</option>
-                            <option value="MEIA">Meia</option>
-                        </select>
-                    </div>
+                        <div class="campo">
+                            <label for="funcaoIntegrante">Função</label>
 
-                    <button class="botao-principal" type="submit">
-                        Cadastrar integrante
-                    </button>
-
-                    <p id="mensagemIntegrante"
-                       class="mensagem"
-                       role="status"
-                       aria-live="polite">
-                    </p>
-
-                </form>
-            </div>
-        </section>
-
-        <section id="secao-equipes"
-                 class="secao-tela"
-                 hidden>
-
-            <div class="painel-formulario">
-
-                <h2>Cadastro de Equipes</h2>
-
-                <form id="formTime">
-
-                    <div class="campo">
-                        <label for="nomeDoClube">Nome do clube</label>
-
-                        <input
-                                type="text"
-                                id="nomeDoClube"
-                                maxlength="100"
-                                placeholder="Ex.: G2"
-                                required
-                        >
-                    </div>
-
-                    <div class="campo">
-                        <label for="dataTime">Data da escalação</label>
-
-                        <input
-                                type="date"
-                                id="dataTime"
-                                required
-                        >
-                    </div>
-
-                    <fieldset class="grupo-integrantes">
-
-                        <legend>Integrantes da equipe</legend>
-
-                        <p class="texto-auxiliar">
-                            Escolha os integrantes que farão parte da equipe.
-                        </p>
-
-                        <div class="campo campo-integrante">
-                            <label for="selectIntegrante">
-                                Adicionar integrante
-                            </label>
-
-                            <select id="selectIntegrante" disabled>
-                                <option value="">
-                                    Carregando integrantes...
-                                </option>
+                            <select id="funcaoIntegrante" required>
+                                <option value="">Selecione uma função</option>
+                                <option value="ATACANTE">Atacante</option>
+                                <option value="GOLEIRO">Goleiro</option>
+                                <option value="MEIA">Meia</option>
                             </select>
                         </div>
 
-                        <div class="lista-selecionados">
+                        <button class="botao-principal" type="submit">
+                            Cadastrar integrante
+                        </button>
 
-                            <div class="cabecalho-selecionados">
-                                <span>Nome</span>
-                                <span>Função</span>
-                                <span aria-hidden="true"></span>
-                            </div>
+                        <p id="mensagemIntegrante" class="mensagem" role="status" aria-live="polite">
+                        </p>
 
-                            <div
-                                    id="integrantesSelecionados"
-                                    class="integrantes-selecionados"
-                                    aria-live="polite"
-                            >
-                                <p class="estado-lista">
-                                    Nenhum integrante selecionado.
-                                </p>
-                            </div>
+                    </form>
+                </div>
+            </section>
 
+            <section id="secao-equipes" class="secao-tela" hidden>
+
+                <div class="painel-formulario">
+
+                    <img src="/images/octane-laranja-equipe-laranja.png" alt="" class="decoracao-octane"
+                        aria-hidden="true">
+
+                    <h2>Cadastro de Equipes</h2>
+
+                    <form id="formTime">
+
+                        <div class="campo">
+                            <label for="nomeDoClube">Nome do clube</label>
+
+                            <input type="text" id="nomeDoClube" maxlength="100" placeholder="Ex.: G2" required>
                         </div>
 
-                    </fieldset>
+                        <div class="campo">
+                            <label for="dataTime">Data da escalação</label>
 
-                    <button class="botao-principal" type="submit">
-                        Cadastrar equipe
-                    </button>
+                            <input type="date" id="dataTime" required>
+                        </div>
 
-                    <p id="mensagemTime"
-                       class="mensagem"
-                       role="status"
-                       aria-live="polite">
-                    </p>
+                        <fieldset class="grupo-integrantes">
 
-                </form>
-            </div>
-        </section>
+                            <legend>Integrantes da equipe</legend>
 
-        <!-- CONSULTAS -->
-        <section id="secao-consultas"
-                 class="secao-tela"
-                 hidden>
+                            <p class="texto-auxiliar">
+                                Escolha os integrantes que farão parte da equipe.
+                            </p>
 
-            <div class="painel-formulario">
+                            <div class="campo campo-integrante">
+                                <label for="selectIntegrante">
+                                    Adicionar integrante
+                                </label>
 
-                <h2>Consultas e Estatísticas</h2>
+                                <select id="selectIntegrante" disabled>
+                                    <option value="">
+                                        Carregando integrantes...
+                                    </option>
+                                </select>
+                            </div>
 
-                <p>
-                    As telas de consulta poderão ser adicionadas aqui
-                    depois dos cadastros.
-                </p>
+                            <div class="lista-selecionados">
 
-            </div>
-        </section>
+                                <div class="cabecalho-selecionados">
+                                    <span>Nome</span>
+                                    <span>Função</span>
+                                    <span aria-hidden="true"></span>
+                                </div>
 
-    </main>
-</div>
+                                <div id="integrantesSelecionados" class="integrantes-selecionados" aria-live="polite">
+                                    <p class="estado-lista">
+                                        Nenhum integrante selecionado.
+                                    </p>
+                                </div>
 
-<script src="/js/app.js" defer></script>
+                            </div>
+
+                        </fieldset>
+
+                        <button class="botao-principal" type="submit">
+                            Cadastrar equipe
+                        </button>
+
+                        <p id="mensagemTime" class="mensagem" role="status" aria-live="polite">
+                        </p>
+
+                    </form>
+                </div>
+            </section>
+
+            <section id="secao-consultas" class="secao-tela" hidden>
+
+                <div class="painel-consultas">
+
+                    <h2>Consultas e Estatísticas</h2>
+
+                    <div class="grade-consultas">
+
+                        <div class="cartao-consulta">
+                            <h3>Integrante mais usado</h3>
+
+                            <div class="filtro-datas">
+                                <div class="campo-data">
+                                    <label for="dataInicialIntegranteMaisUsado">Data inicial</label>
+                                    <input type="date" id="dataInicialIntegranteMaisUsado">
+                                </div>
+                                <div class="campo-data">
+                                    <label for="dataFinalIntegranteMaisUsado">Data final</label>
+                                    <input type="date" id="dataFinalIntegranteMaisUsado">
+                                </div>
+                            </div>
+
+                            <button class="botao-consultar botao-consultar--bloco" type="button"
+                                id="botaoIntegranteMaisUsado">
+                                Consultar
+                            </button>
+
+                            <div class="resultado-consulta" id="resultadoIntegranteMaisUsado">
+                                <span class="resultado-subtitulo">Selecione um período e consulte.</span>
+                            </div>
+                        </div>
+
+                        <div class="cartao-consulta">
+                            <h3>Função mais recorrente</h3>
+
+                            <div class="filtro-datas">
+                                <div class="campo-data">
+                                    <label for="dataInicialFuncaoMaisRecorrente">Data inicial</label>
+                                    <input type="date" id="dataInicialFuncaoMaisRecorrente">
+                                </div>
+                                <div class="campo-data">
+                                    <label for="dataFinalFuncaoMaisRecorrente">Data final</label>
+                                    <input type="date" id="dataFinalFuncaoMaisRecorrente">
+                                </div>
+                            </div>
+
+                            <button class="botao-consultar botao-consultar--bloco" type="button"
+                                id="botaoFuncaoMaisRecorrente">
+                                Consultar
+                            </button>
+
+                            <div class="resultado-consulta" id="resultadoFuncaoMaisRecorrente">
+                                <span class="resultado-subtitulo">Selecione um período e consulte.</span>
+                            </div>
+                        </div>
+
+                        <div class="cartao-consulta">
+                            <h3>Clube mais recorrente</h3>
+
+                            <div class="filtro-datas">
+                                <div class="campo-data">
+                                    <label for="dataInicialClubeMaisRecorrente">Data inicial</label>
+                                    <input type="date" id="dataInicialClubeMaisRecorrente">
+                                </div>
+                                <div class="campo-data">
+                                    <label for="dataFinalClubeMaisRecorrente">Data final</label>
+                                    <input type="date" id="dataFinalClubeMaisRecorrente">
+                                </div>
+                            </div>
+
+                            <button class="botao-consultar botao-consultar--bloco" type="button"
+                                id="botaoClubeMaisRecorrente">
+                                Consultar
+                            </button>
+
+                            <div class="resultado-consulta" id="resultadoClubeMaisRecorrente">
+                                <span class="resultado-subtitulo">Selecione um período e consulte.</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="grade-consultas grade-consultas--dupla">
+
+                        <div class="cartao-consulta">
+                            <h3>Time da data</h3>
+
+                            <div class="filtro-datas">
+                                <div class="campo-data">
+                                    <label for="dataTimeDaData">Data</label>
+                                    <input type="date" id="dataTimeDaData">
+                                </div>
+                                <button class="botao-consultar" type="button" id="botaoTimeDaData">
+                                    Consultar
+                                </button>
+                            </div>
+
+                            <p class="resultado-subtitulo" id="nomeTimeDaData"></p>
+
+                            <table class="tabela-resultado" id="tabelaTimeDaData">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Função</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2">Selecione uma data e consulte.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="cartao-consulta">
+                            <h3>Integrantes do time mais recorrente</h3>
+
+                            <div class="filtro-datas">
+                                <div class="campo-data">
+                                    <label for="dataInicialTimeMaisRecorrente">Data inicial</label>
+                                    <input type="date" id="dataInicialTimeMaisRecorrente">
+                                </div>
+                                <div class="campo-data">
+                                    <label for="dataFinalTimeMaisRecorrente">Data final</label>
+                                    <input type="date" id="dataFinalTimeMaisRecorrente">
+                                </div>
+                                <button class="botao-consultar" type="button" id="botaoTimeMaisRecorrente">
+                                    Consultar
+                                </button>
+                            </div>
+
+                            <ul class="lista-resultado" id="listaTimeMaisRecorrente">
+                                <li>Selecione um período e consulte.</li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="grade-consultas grade-consultas--dupla">
+
+                        <div class="cartao-consulta">
+                            <h3>Clubes no período</h3>
+
+                            <div class="filtro-datas">
+                                <div class="campo-data">
+                                    <label for="dataInicialClubesPeriodo">Data inicial</label>
+                                    <input type="date" id="dataInicialClubesPeriodo">
+                                </div>
+                                <div class="campo-data">
+                                    <label for="dataFinalClubesPeriodo">Data final</label>
+                                    <input type="date" id="dataFinalClubesPeriodo">
+                                </div>
+                                <button class="botao-consultar" type="button" id="botaoClubesPeriodo">
+                                    Consultar
+                                </button>
+                            </div>
+
+                            <div class="grafico-barras" id="graficoClubesPeriodo">
+                                <p class="estado-lista">Selecione um período e consulte.</p>
+                            </div>
+                        </div>
+
+                        <div class="cartao-consulta">
+                            <h3>Contagem por função</h3>
+
+                            <div class="filtro-datas">
+                                <div class="campo-data">
+                                    <label for="dataInicialContagemFuncao">Data inicial</label>
+                                    <input type="date" id="dataInicialContagemFuncao">
+                                </div>
+                                <div class="campo-data">
+                                    <label for="dataFinalContagemFuncao">Data final</label>
+                                    <input type="date" id="dataFinalContagemFuncao">
+                                </div>
+                                <button class="botao-consultar" type="button" id="botaoContagemFuncao">
+                                    Consultar
+                                </button>
+                            </div>
+
+                            <div class="grafico-barras" id="graficoContagemFuncao">
+                                <p class="estado-lista">Selecione um período e consulte.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+
+    <script src="/js/app.js" defer></script>
 </body>
+
 </html>

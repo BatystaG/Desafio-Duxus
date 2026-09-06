@@ -3,7 +3,8 @@
 const ENDPOINTS = {
     cadastrarIntegrante: "/integrante/cadastro",
     listarIntegrantes: "/integrante/consultaIntegrantes",
-    cadastrarTime: "/time/cadastro"
+    cadastrarTime: "/time/cadastro",
+    timeDaData: "/time/consultaTimeDaData"
 };
 
 const linksDoMenu = document.querySelectorAll("[data-tela]");
@@ -552,6 +553,136 @@ formTime.addEventListener(
             botao.disabled = false;
             botao.textContent =
                 "Cadastrar equipe";
+        }
+    }
+);
+
+const FUNCOES_EXIBICAO = {
+    ATACANTE: "Atacante",
+    GOLEIRO: "Goleiro",
+    MEIA: "Meia"
+};
+
+function exibirFuncao(funcao) {
+    return FUNCOES_EXIBICAO[funcao] || funcao;
+}
+
+function criarElemento(tag, className, texto) {
+
+    const elemento = document.createElement(tag);
+
+    if (className) {
+        elemento.className = className;
+    }
+
+    if (texto !== undefined) {
+        elemento.textContent = texto;
+    }
+
+    return elemento;
+}
+
+function construirQueryString(parametros) {
+
+    const query = new URLSearchParams();
+
+    Object.entries(parametros).forEach(([chave, valor]) => {
+        if (valor) {
+            query.append(chave, valor);
+        }
+    });
+
+    const texto = query.toString();
+
+    return texto ? `?${texto}` : "";
+}
+
+async function buscarConsulta(url) {
+
+    const response = await fetch(url);
+
+    if (response.status === 404) {
+        return null;
+    }
+
+    if (!response.ok) {
+        throw new Error("Não foi possível concluir a consulta.");
+    }
+
+    return response.json();
+}
+
+document.getElementById("botaoTimeDaData").addEventListener(
+    "click",
+    async () => {
+
+        const data = document.getElementById("dataTimeDaData").value;
+
+        const nomeTime = document.getElementById("nomeTimeDaData");
+
+        const corpoTabela =
+            document.querySelector("#tabelaTimeDaData tbody");
+
+        corpoTabela.innerHTML = "";
+        nomeTime.textContent = "";
+
+        if (!data) {
+
+            const linha = document.createElement("tr");
+            const celula = criarElemento("td", "", "Selecione uma data.");
+
+            celula.colSpan = 2;
+            linha.appendChild(celula);
+            corpoTabela.appendChild(linha);
+
+            return;
+        }
+
+        try {
+
+            const query = construirQueryString({ data });
+
+            const time = await buscarConsulta(
+                `${ENDPOINTS.timeDaData}${query}`
+            );
+
+            if (!time || !time.composicaoTime || time.composicaoTime.length === 0) {
+
+                const linha = document.createElement("tr");
+                const celula = criarElemento("td", "", "Nenhum time encontrado nessa data.");
+
+                celula.colSpan = 2;
+                linha.appendChild(celula);
+                corpoTabela.appendChild(linha);
+
+                return;
+            }
+
+            nomeTime.textContent = time.nomeDoClube;
+
+            time.composicaoTime.forEach(composicao => {
+
+                const linha = document.createElement("tr");
+
+                linha.appendChild(
+                    criarElemento("td", "", composicao.integrante.nome)
+                );
+
+                linha.appendChild(
+                    criarElemento("td", "", exibirFuncao(composicao.integrante.funcao))
+                );
+
+                corpoTabela.appendChild(linha);
+            });
+
+        } catch (erro) {
+
+            const linha = document.createElement("tr");
+            const celula = criarElemento("td", "", erro.message);
+
+            celula.colSpan = 2;
+            linha.appendChild(celula);
+            corpoTabela.appendChild(linha);
         }
     }
 );
