@@ -71,7 +71,7 @@
                                 type="text"
                                 id="nomeIntegrante"
                                 maxlength="100"
-                                placeholder="Ex.: Ana Silva"
+                                placeholder="Ex.: yANXNZ"
                                 required
                         >
                     </div>
@@ -79,13 +79,12 @@
                     <div class="campo">
                         <label for="funcaoIntegrante">Função</label>
 
-                        <input
-                                type="text"
-                                id="funcaoIntegrante"
-                                maxlength="100"
-                                placeholder="Ex.: Atacante"
-                                required
-                        >
+                        <select id="funcaoIntegrante" required>
+                            <option value="">Selecione uma função</option>
+                            <option value="ATACANTE">Atacante</option>
+                            <option value="GOLEIRO">Goleiro</option>
+                            <option value="MEIA">Meia</option>
+                        </select>
                     </div>
 
                     <button class="botao-principal" type="submit">

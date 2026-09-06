@@ -238,7 +238,7 @@ formIntegrante.addEventListener(
 
             exibirMensagem(
                 mensagemIntegrante,
-                `Integrante cadastrado com sucesso. ID: ${integranteCadastrado.id}`,
+                `Integrante cadastrado com sucesso.`,
                 "sucesso"
             );
 

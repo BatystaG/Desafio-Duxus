@@ -8,7 +8,9 @@ import br.com.duxusdesafio.model.Time;
 import br.com.duxusdesafio.repository.IntegranteRepository;
 import br.com.duxusdesafio.repository.TimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -30,10 +32,45 @@ public class ApiService {
     @Autowired
     private TimeRepository timeRepository;
 
+    private static final Set<String> FUNCOES_VALIDAS =
+            Set.of("ATACANTE", "GOLEIRO", "MEIA");
+
     public Integrante cadastrarIntegrante(IntegranteDto dto){
+
+        if (dto == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Os dados do integrante são obrigatórios"
+            );
+        }
+
+        if (dto.getNome() == null || dto.getNome().isBlank()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "O nome do integrante é obrigatório"
+            );
+        }
+
+        if (dto.getFuncao() == null || dto.getFuncao().isBlank()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "A função do integrante é obrigatória"
+            );
+        }
+
+        String nome = dto.getNome().trim();
+        String funcao = dto.getFuncao().trim();
+
+        if (!FUNCOES_VALIDAS.contains(funcao)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Função inválida. Use Atacante, Goleiro ou Meia"
+            );
+        }
+
         Integrante integrante = new Integrante();
-        integrante.setNome(dto.getNome());
-        integrante.setFuncao(dto.getFuncao());
+        integrante.setNome(nome);
+        integrante.setFuncao(funcao);
         return integranteRepository.save(integrante);
     }
 
