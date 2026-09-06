@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rocket League Champions</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap"
+            rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<div class="app-container">
+
+    <header class="cabecalho">
+        <h1>Rocket League Champions</h1>
+    </header>
+
+    <div class="banner">
+        <img
+                src="/images/Banner%20Rocket%20League.jpg"
+                alt="Carros disputando uma partida de Rocket League"
+        >
+    </div>
+
+    <nav class="menu-principal" aria-label="Navegação principal">
+
+        <a href="#integrantes"
+           class="ativo"
+           data-tela="integrantes">
+            Cadastro de Integrantes
+        </a>
+
+        <span class="separador">|</span>
+
+        <a href="#equipes"
+           data-tela="equipes">
+            Cadastro de Equipes
+        </a>
+
+        <span class="separador">|</span>
+
+        <a href="#consultas"
+           data-tela="consultas">
+            Consultas e Estatísticas
+        </a>
+
+    </nav>
+
+    <main class="conteudo">
+        <section id="secao-integrantes" class="secao-tela">
+
+            <div class="painel-formulario">
+
+                <h2>Cadastro de Integrantes</h2>
+
+                <form id="formIntegrante">
+
+                    <div class="campo">
+                        <label for="nomeIntegrante">Nome</label>
+
+                        <input
+                                type="text"
+                                id="nomeIntegrante"
+                                maxlength="100"
+                                placeholder="Ex.: Ana Silva"
+                                required
+                        >
+                    </div>
+
+                    <div class="campo">
+                        <label for="funcaoIntegrante">Função</label>
+
+                        <input
+                                type="text"
+                                id="funcaoIntegrante"
+                                maxlength="100"
+                                placeholder="Ex.: Atacante"
+                                required
+                        >
+                    </div>
+
+                    <button class="botao-principal" type="submit">
+                        Cadastrar integrante
+                    </button>
+
+                    <p id="mensagemIntegrante"
+                       class="mensagem"
+                       role="status"
+                       aria-live="polite">
+                    </p>
+
+                </form>
+            </div>
+        </section>
+
+        <section id="secao-equipes"
+                 class="secao-tela"
+                 hidden>
+
+            <div class="painel-formulario">
+
+                <h2>Cadastro de Equipes</h2>
+
+                <form id="formTime">
+
+                    <div class="campo">
+                        <label for="nomeDoClube">Nome do clube</label>
+
+                        <input
+                                type="text"
+                                id="nomeDoClube"
+                                maxlength="100"
+                                placeholder="Ex.: Falcons"
+                                required
+                        >
+                    </div>
+
+                    <div class="campo">
+                        <label for="dataTime">Data da escalação</label>
+
+                        <input
+                                type="date"
+                                id="dataTime"
+                                required
+                        >
+                    </div>
+
+                    <fieldset class="grupo-integrantes">
+
+                        <legend>Integrantes da equipe</legend>
+
+                        <p class="texto-auxiliar">
+                            Marque pelo menos um integrante cadastrado.
+                        </p>
+
+                        <div id="listaIntegrantes"
+                             class="lista-integrantes"
+                             aria-live="polite">
+
+                            <p class="estado-lista">
+                                Carregando integrantes...
+                            </p>
+
+                        </div>
+
+                    </fieldset>
+
+                    <button class="botao-principal" type="submit">
+                        Cadastrar equipe
+                    </button>
+
+                    <p id="mensagemTime"
+                       class="mensagem"
+                       role="status"
+                       aria-live="polite">
+                    </p>
+
+                </form>
+            </div>
+        </section>
+
+        <!-- CONSULTAS -->
+        <section id="secao-consultas"
+                 class="secao-tela"
+                 hidden>
+
+            <div class="painel-formulario">
+
+                <h2>Consultas e Estatísticas</h2>
+
+                <p>
+                    As telas de consulta poderão ser adicionadas aqui
+                    depois dos cadastros.
+                </p>
+
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script src="/js/app.js" defer></script>
+</body>
+</html>

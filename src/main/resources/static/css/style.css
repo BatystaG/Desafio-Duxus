@@ -1,0 +1,252 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap");
+
+:root {
+    --cor-fundo: #252525;
+    --cor-laranja: #ff9800;
+    --cor-azul: #000046;
+    --cor-branca: #ffffff;
+    --cor-painel: #09095c;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--cor-fundo);
+    color: var(--cor-branca);
+    font-family: "Fredoka", "Arial Rounded MT Bold", sans-serif;
+}
+
+.app-container {
+    width: 100%;
+    max-width: none;
+    min-height: 100vh;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: var(--cor-azul);
+}
+
+.cabecalho {
+    height: 51px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-laranja);
+}
+
+.cabecalho h1 {
+    margin: 0;
+    color: #f1f1f1;
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.3px;
+    font-family: "League Spartan", Arial, sans-serif;
+
+    -webkit-text-stroke: 0.6px #303030;
+
+    text-shadow:
+            -1px -1px 0 #303030,
+            1px -1px 0 #303030,
+            -1px  1px 0 #303030,
+            1px  1px 0 #303030,
+            0 3px 5px rgb(255 255 255 / 0.55);
+}
+
+.banner {
+    width: 100%;
+    height: clamp(280px, 34vw, 520px);
+    overflow: hidden;
+    background-color: #111111;
+}
+
+.banner img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+}
+
+.menu-principal {
+    min-height: 47px;
+    padding: 7px 20px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    background-color: var(--cor-azul);
+}
+
+.menu-principal a {
+    color: var(--cor-branca);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.menu-principal a:hover,
+.menu-principal a.ativo {
+    color: var(--cor-laranja);
+}
+
+.separador {
+    color: var(--cor-branca);
+    font-size: 27px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.conteudo {
+    min-height: calc(100vh - 448px);
+    padding: 32px 28px 60px;
+    background-color: var(--cor-azul);
+}
+
+.painel-formulario {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 28px;
+    background-color: var(--cor-painel);
+    border-top: 5px solid var(--cor-laranja);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 25%);
+}
+
+.painel-formulario h2 {
+    margin: 0 0 24px;
+    color: var(--cor-branca);
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.campo {
+    margin-bottom: 18px;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--cor-branca);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    height: 46px;
+    padding: 0 13px;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    outline: none;
+    background-color: var(--cor-branca);
+    color: #202020;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: var(--cor-laranja);
+    box-shadow: 0 0 0 3px rgb(255 152 0 / 25%);
+}
+
+.botao-principal {
+    min-height: 46px;
+    padding: 10px 24px;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: var(--cor-laranja);
+    color: var(--cor-branca);
+    font-family: "Fredoka", sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    transition:
+            background-color 0.2s ease,
+            transform 0.1s ease;
+}
+
+.botao-principal:hover {
+    background-color: #e98900;
+}
+
+.botao-principal:active {
+    transform: translateY(1px);
+}
+
+.mensagem {
+    margin-top: 18px;
+    padding: 12px;
+    display: none;
+    border-radius: 3px;
+    font-family: Arial, sans-serif;
+}
+
+.mensagem.sucesso {
+    display: block;
+    background-color: #18723a;
+}
+
+.mensagem.erro {
+    display: block;
+    background-color: #a52323;
+}
+
+@media (max-width: 760px) {
+    body {
+        padding: 0;
+    }
+
+    .app-container {
+        min-height: 100vh;
+    }
+
+    .cabecalho {
+        min-height: 58px;
+        height: auto;
+        padding: 10px 15px;
+        text-align: center;
+    }
+
+    .cabecalho h1 {
+        font-size: clamp(24px, 7vw, 32px);
+    }
+
+    .menu-principal {
+        padding: 14px;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .menu-principal a {
+        font-size: 18px;
+    }
+
+    .separador {
+        display: none;
+    }
+
+    .conteudo {
+        min-height: auto;
+        padding: 24px 16px 50px;
+    }
+
+    .painel-formulario {
+        padding: 22px 18px;
+    }
+}
