@@ -145,7 +145,50 @@ public class ApiService {
      */
     public List<String> integrantesDoTimeMaisRecorrente(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
         // TODO Implementar método seguindo as instruções!
-        return null;
+        // Nesta solução, consideramos que o time pode ser reutilizado em outras datas sem alteração de Integrantes, por isso,
+        // O filtro é feito com o nome do Time.
+
+        if (todosOsTimes == null) {
+            return null;
+        }
+
+        Map<String, Integer> quantidadeDeAparicoesPorTime = new HashMap<>();
+
+        Time timeMaisRecorrente = null;
+        int maiorQuantidade = 0;
+
+        for (Time time : todosOsTimes) {
+
+            boolean dentroDoPeriodo = time.getData().isBefore(dataFinal) && time.getData().isAfter(dataInicial);
+
+            if (dentroDoPeriodo) {
+
+                String nomeDoTime = time.getNomeDoClube();
+
+                int novaQuantidade = quantidadeDeAparicoesPorTime.getOrDefault(nomeDoTime, 0) + 1;
+
+                quantidadeDeAparicoesPorTime.put(nomeDoTime, novaQuantidade);
+
+                if (novaQuantidade > maiorQuantidade) {
+                    maiorQuantidade = novaQuantidade;
+                    timeMaisRecorrente = time;
+                }
+            }
+        }
+
+        if (timeMaisRecorrente == null) {
+            return null;
+        }
+
+        List<String> nomesDosIntegrantes = new ArrayList<>();
+
+        for (ComposicaoTime composicao : timeMaisRecorrente.getComposicaoTime()) {
+
+            nomesDosIntegrantes.add(composicao.getIntegrante().getNome());
+
+        }
+
+        return nomesDosIntegrantes;
     }
 
     /**

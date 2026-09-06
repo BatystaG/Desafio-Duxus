@@ -66,4 +66,35 @@ public class IntegranteController {
         return ResponseEntity.ok(integranteMaisUsado);
 
     }
+
+    @GetMapping("/consultaIntegrantesDoTimeMaisRecorrente")
+
+    //Utiliza diretamente o timeRepository para buscar os times e repassa ao metodo da ApiService,
+    // pois recebe do front apenas as datas
+
+    public ResponseEntity<List<String>> consultaIntegrantesDoTimeMaisRecorrente(
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataInicial,
+
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataFinal){
+
+        if(dataInicial == null || dataFinal == null){
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<Time> todosOsTimes = timeRepository.findAll();
+
+        List<String> integrantesDoTimeMaisUsado = apiService.integrantesDoTimeMaisRecorrente(dataInicial, dataFinal, todosOsTimes);
+
+        if (integrantesDoTimeMaisUsado == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+
+        return ResponseEntity.ok(integrantesDoTimeMaisUsado);
+
+    }
 }
