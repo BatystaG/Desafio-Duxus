@@ -366,4 +366,10 @@ public class ApiService {
         return quantidadePorFuncao;
     }
 
+    public List<Integrante> integrantesCadastrados(){
+
+        List<Integrante> integrantes = integranteRepository.findAll();
+
+        return integrantes;
+    }
 }

@@ -142,4 +142,18 @@ public class IntegranteController {
         return ResponseEntity.ok(contagemPorFuncao);
 
     }
+
+    @GetMapping("/consultaIntegrantes")
+
+    public ResponseEntity<List<Integrante>> retornaIntegrantesCadastrados(){
+
+        List<Integrante> integrantes = apiService.integrantesCadastrados();
+
+        if (integrantes == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(integrantes);
+    }
+
 }
