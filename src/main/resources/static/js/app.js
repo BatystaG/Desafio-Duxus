@@ -19,12 +19,8 @@ const listaIntegrantesSelecionados =
     document.getElementById("integrantesSelecionados");
 
 let integrantesDisponiveis = [];
+const MAX_INTEGRANTES_POR_TIME = 4;
 
-/*
- * Map com:
- * chave = ID
- * valor = objeto do integrante
- */
 const integrantesEscolhidos = new Map();
 
 const mensagemIntegrante =
@@ -34,9 +30,6 @@ const mensagemTime =
     document.getElementById("mensagemTime");
 
 
-/*
- * Navegação entre as telas
- */
 function mostrarTela(nomeDaTela) {
 
     secoes.forEach(secao => {
@@ -75,9 +68,6 @@ linksDoMenu.forEach(link => {
 });
 
 
-/*
- * Exibe mensagens de sucesso ou erro
- */
 function exibirMensagem(elemento, texto, tipo) {
 
     elemento.textContent = texto;
@@ -93,9 +83,6 @@ function exibirMensagem(elemento, texto, tipo) {
 }
 
 
-/*
- * Cria visualmente um integrante com checkbox
- */
 function ordenarIntegrantes(integrantes) {
 
     return integrantes.sort((primeiro, segundo) =>
@@ -124,12 +111,18 @@ function atualizarSelectIntegrantes() {
                 )
         );
 
+    const limiteAtingido =
+        integrantesEscolhidos.size >= MAX_INTEGRANTES_POR_TIME;
+
     const primeiraOpcao =
         document.createElement("option");
 
     primeiraOpcao.value = "";
 
-    if (integrantesRestantes.length > 0) {
+    if (limiteAtingido) {
+        primeiraOpcao.textContent =
+            `Limite de ${MAX_INTEGRANTES_POR_TIME} integrantes atingido`;
+    } else if (integrantesRestantes.length > 0) {
         primeiraOpcao.textContent =
             "Selecione um integrante";
     } else if (integrantesDisponiveis.length > 0) {
@@ -150,13 +143,13 @@ function atualizarSelectIntegrantes() {
         opcao.value = integrante.id;
 
         opcao.textContent =
-            `${integrante.nome} — ${integrante.funcao}`;
+            `${integrante.nome} - ${integrante.funcao}`;
 
         selectIntegrante.appendChild(opcao);
     });
 
     selectIntegrante.disabled =
-        integrantesRestantes.length === 0;
+        integrantesRestantes.length === 0 || limiteAtingido;
 }
 
 
@@ -213,7 +206,10 @@ function atualizarListaDeSelecionados() {
         botaoRemover.className =
             "botao-remover-integrante";
 
-        botaoRemover.textContent = "Remover";
+        botaoRemover.textContent = "×";
+
+        botaoRemover.title =
+            `Remover ${integrante.nome}`;
 
         botaoRemover.setAttribute(
             "aria-label",
@@ -254,6 +250,18 @@ selectIntegrante.addEventListener(
             Number(selectIntegrante.value);
 
         if (!integranteId) {
+            return;
+        }
+
+        if (integrantesEscolhidos.size >= MAX_INTEGRANTES_POR_TIME) {
+
+            exibirMensagem(
+                mensagemTime,
+                `A equipe pode ter no máximo ${MAX_INTEGRANTES_POR_TIME} integrantes.`,
+                "erro"
+            );
+
+            selectIntegrante.value = "";
             return;
         }
 
@@ -306,10 +314,6 @@ async function carregarIntegrantes() {
 
         integrantesDisponiveis = resultado;
 
-        /*
-         * Remove da seleção algum integrante que
-         * eventualmente não exista mais no backend.
-         */
         const idsExistentes = new Set(
             integrantesDisponiveis.map(
                 integrante => Number(integrante.id)
@@ -353,9 +357,7 @@ async function carregarIntegrantes() {
         }
     }
 }
-/*
- * Cadastro de integrante
- */
+
 formIntegrante.addEventListener(
     "submit",
     async evento => {
@@ -421,10 +423,6 @@ formIntegrante.addEventListener(
                 "sucesso"
             );
 
-            /*
-             * Atualiza os integrantes disponíveis
-             * no cadastro de equipes.
-             */
             await carregarIntegrantes();
 
         } catch (erro) {
@@ -445,9 +443,6 @@ formIntegrante.addEventListener(
 );
 
 
-/*
- * Cadastro de equipe
- */
 formTime.addEventListener(
     "submit",
     async evento => {
@@ -459,9 +454,6 @@ formTime.addEventListener(
                 'button[type="submit"]'
             );
 
-        /*
-         * Busca apenas os checkboxes selecionados.
-         */
         const integrantesIds =
             Array.from(integrantesEscolhidos.keys());
 
@@ -470,6 +462,17 @@ formTime.addEventListener(
             exibirMensagem(
                 mensagemTime,
                 "Selecione pelo menos um integrante.",
+                "erro"
+            );
+
+            return;
+        }
+
+        if (integrantesIds.length > MAX_INTEGRANTES_POR_TIME) {
+
+            exibirMensagem(
+                mensagemTime,
+                `A equipe pode ter no máximo ${MAX_INTEGRANTES_POR_TIME} integrantes.`,
                 "erro"
             );
 
@@ -532,7 +535,7 @@ formTime.addEventListener(
 
             exibirMensagem(
                 mensagemTime,
-                `Equipe cadastrada com sucesso. ID: ${timeCadastrado.id}`,
+                `Equipe cadastrada com sucesso.`,
                 "sucesso"
             );
 
@@ -554,9 +557,6 @@ formTime.addEventListener(
 );
 
 
-/*
- * Define a tela inicial pela URL.
- */
 const telaInicial =
     window.location.hash.replace("#", "");
 

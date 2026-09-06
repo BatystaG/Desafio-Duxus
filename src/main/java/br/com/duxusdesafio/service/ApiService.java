@@ -75,6 +75,14 @@ public class ApiService {
     }
 
     public Time cadastrarTime(TimeDto dto){
+
+        if (dto.getIntegrantesIds().size() > 4) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "A equipe pode ter no máximo 4 integrantes"
+            );
+        }
+
         Time time = new Time();
         time.setNomeDoClube(dto.getNomeDoClube());
         time.setData(dto.getData());
