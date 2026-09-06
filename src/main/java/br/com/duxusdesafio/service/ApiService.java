@@ -203,6 +203,7 @@ public class ApiService {
      */
     public String funcaoMaisRecorrente(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
         // TODO Implementar método seguindo as instruções!
+        //Nesta solução também não estamos considerando empates.
 
         if (todosOsTimes == null) {
             return null;
@@ -250,7 +251,40 @@ public class ApiService {
      */
     public String clubeMaisRecorrente(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
         // TODO Implementar método seguindo as instruções!
-        return null;
+
+        if (todosOsTimes == null) {
+            return null;
+        }
+
+        Map<String, Integer> quantidadePorClube = new HashMap<>();
+
+        String clubeMaisRecorrente = null;
+        int maiorQuantidade = 0;
+
+        for (Time time : todosOsTimes) {
+
+            boolean respeitaDataInicial = dataInicial == null || !time.getData().isBefore(dataInicial);
+
+            boolean respeitaDataFinal = dataFinal == null || !time.getData().isAfter(dataFinal);
+
+            boolean dentroDoPeriodo = respeitaDataInicial && respeitaDataFinal;
+
+            if (dentroDoPeriodo) {
+
+                    String nomeDoClube = time.getNomeDoClube();
+
+                    int novaQuantidade = quantidadePorClube.getOrDefault(nomeDoClube, 0) + 1;
+
+                    quantidadePorClube.put(nomeDoClube, novaQuantidade);
+
+                    if (novaQuantidade > maiorQuantidade) {
+                        maiorQuantidade = novaQuantidade;
+                        clubeMaisRecorrente = nomeDoClube;
+                    }
+            }
+        }
+
+        return clubeMaisRecorrente;
     }
 
 

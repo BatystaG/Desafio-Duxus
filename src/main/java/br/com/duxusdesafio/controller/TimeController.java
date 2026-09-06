@@ -64,4 +64,30 @@ public class TimeController {
         return ResponseEntity.ok(timeDaData);
 
     }
+
+    @GetMapping("/consultaClubeMaisRecorrente")
+
+    //Utiliza diretamente o timeRepository para buscar os times e repassa ao metodo da ApiService,
+    // pois recebe do front apenas as datas
+
+    public ResponseEntity<String> consultaClubeMaisRecorrente(
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataInicial,
+
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataFinal){
+
+        List<Time> todosOsTimes = timeRepository.findAll();
+
+        String clubeMaisRecorrente = apiService.clubeMaisRecorrente(dataInicial, dataFinal, todosOsTimes);
+
+        if (clubeMaisRecorrente == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(clubeMaisRecorrente);
+
+    }
 }
