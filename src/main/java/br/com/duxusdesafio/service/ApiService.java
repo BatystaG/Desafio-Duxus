@@ -251,6 +251,7 @@ public class ApiService {
      */
     public String clubeMaisRecorrente(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
         // TODO Implementar método seguindo as instruções!
+        //Nesta solução também não estamos considerando empates.
 
         if (todosOsTimes == null) {
             return null;
@@ -293,7 +294,33 @@ public class ApiService {
      */
     public Map<String, Long> contagemDeClubesNoPeriodo(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
         // TODO Implementar método seguindo as instruções!
-        return null;
+
+        if (todosOsTimes == null) {
+            return null;
+        }
+
+        Map<String, Long> quantidadePorClube = new HashMap<>();
+
+        for (Time time : todosOsTimes) {
+
+            boolean respeitaDataInicial = dataInicial == null || !time.getData().isBefore(dataInicial);
+
+            boolean respeitaDataFinal = dataFinal == null || !time.getData().isAfter(dataFinal);
+
+            boolean dentroDoPeriodo = respeitaDataInicial && respeitaDataFinal;
+
+            if (dentroDoPeriodo) {
+
+                String nomeDoClube = time.getNomeDoClube();
+
+                long novaQuantidade = quantidadePorClube.getOrDefault(nomeDoClube, 0L) + 1L;
+
+                quantidadePorClube.put(nomeDoClube, novaQuantidade);
+            }
+        }
+
+        return quantidadePorClube;
+
     }
 
     /**

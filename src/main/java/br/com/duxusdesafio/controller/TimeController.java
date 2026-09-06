@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/time")
@@ -88,6 +89,32 @@ public class TimeController {
         }
 
         return ResponseEntity.ok(clubeMaisRecorrente);
+
+    }
+
+    @GetMapping("/contagemClubesNoPeriodo")
+
+    //Utiliza diretamente o timeRepository para buscar os times e repassa ao metodo da ApiService,
+    // pois recebe do front apenas as datas
+
+    public ResponseEntity<Map<String, Long>> contagemClubesNoPeriodo(
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataInicial,
+
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataFinal){
+
+        List<Time> todosOsTimes = timeRepository.findAll();
+
+        Map<String, Long> contagemClubes = apiService.contagemDeClubesNoPeriodo(dataInicial, dataFinal, todosOsTimes);
+
+        if (contagemClubes == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(contagemClubes);
 
     }
 }
