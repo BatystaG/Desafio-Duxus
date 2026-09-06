@@ -50,10 +50,6 @@ public class IntegranteController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate dataFinal){
 
-        if(dataInicial == null || dataFinal == null){
-            return ResponseEntity.badRequest().build();
-        }
-
         List<Time> todosOsTimes = timeRepository.findAll();
 
         Integrante integranteMaisUsado = apiService.integranteMaisUsado(dataInicial, dataFinal, todosOsTimes);
@@ -81,10 +77,6 @@ public class IntegranteController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate dataFinal){
 
-        if(dataInicial == null || dataFinal == null){
-            return ResponseEntity.badRequest().build();
-        }
-
         List<Time> todosOsTimes = timeRepository.findAll();
 
         List<String> integrantesDoTimeMaisUsado = apiService.integrantesDoTimeMaisRecorrente(dataInicial, dataFinal, todosOsTimes);
@@ -111,10 +103,6 @@ public class IntegranteController {
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate dataFinal){
-
-        if(dataInicial == null || dataFinal == null){
-            return ResponseEntity.badRequest().build();
-        }
 
         List<Time> todosOsTimes = timeRepository.findAll();
 

@@ -81,8 +81,7 @@ public class ApiService {
 
             if (time != null && data.equals(time.getData())) {
 
-                if (timeDaData == null
-                        || time.getId() > timeDaData.getId()) {
+                if (timeDaData == null || time.getId() > timeDaData.getId()) {
 
                     timeDaData = time;
                 }
@@ -113,7 +112,11 @@ public class ApiService {
 
         for (Time time : todosOsTimes) {
 
-            boolean dentroDoPeriodo = time.getData().isBefore(dataFinal) && time.getData().isAfter(dataInicial);
+            boolean respeitaDataInicial = dataInicial == null || !time.getData().isBefore(dataInicial);
+
+            boolean respeitaDataFinal = dataFinal == null || !time.getData().isAfter(dataFinal);
+
+            boolean dentroDoPeriodo = respeitaDataInicial && respeitaDataFinal;
 
             if (dentroDoPeriodo) {
 
@@ -159,7 +162,11 @@ public class ApiService {
 
         for (Time time : todosOsTimes) {
 
-            boolean dentroDoPeriodo = time.getData().isBefore(dataFinal) && time.getData().isAfter(dataInicial);
+            boolean respeitaDataInicial = dataInicial == null || !time.getData().isBefore(dataInicial);
+
+            boolean respeitaDataFinal = dataFinal == null || !time.getData().isAfter(dataFinal);
+
+            boolean dentroDoPeriodo = respeitaDataInicial && respeitaDataFinal;
 
             if (dentroDoPeriodo) {
 
@@ -208,7 +215,11 @@ public class ApiService {
 
         for (Time time : todosOsTimes) {
 
-            boolean dentroDoPeriodo = time.getData().isBefore(dataFinal) && time.getData().isAfter(dataInicial);
+            boolean respeitaDataInicial = dataInicial == null || !time.getData().isBefore(dataInicial);
+
+            boolean respeitaDataFinal = dataFinal == null || !time.getData().isAfter(dataFinal);
+
+            boolean dentroDoPeriodo = respeitaDataInicial && respeitaDataFinal;
 
             if (dentroDoPeriodo) {
 
