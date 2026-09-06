@@ -44,7 +44,7 @@ public class TimeController {
     // pois recebe do front apenas a data
 
     public ResponseEntity<Time> consultaTimeDaData(
-            @RequestParam
+            @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate data){
 

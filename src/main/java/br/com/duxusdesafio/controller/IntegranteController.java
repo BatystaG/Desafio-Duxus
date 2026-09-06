@@ -42,11 +42,11 @@ public class IntegranteController {
     // pois recebe do front apenas as datas
 
     public ResponseEntity<Integrante> consultaIntegranteMaisUsado(
-            @RequestParam
+            @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate dataInicial,
 
-            @RequestParam
+            @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate dataFinal){
 
@@ -73,11 +73,11 @@ public class IntegranteController {
     // pois recebe do front apenas as datas
 
     public ResponseEntity<List<String>> consultaIntegrantesDoTimeMaisRecorrente(
-            @RequestParam
+            @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate dataInicial,
 
-            @RequestParam
+            @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate dataFinal){
 
@@ -95,6 +95,36 @@ public class IntegranteController {
 
 
         return ResponseEntity.ok(integrantesDoTimeMaisUsado);
+
+    }
+
+    @GetMapping("/consultaFuncaoMaisRecorrente")
+
+    //Utiliza diretamente o timeRepository para buscar os times e repassa ao metodo da ApiService,
+    // pois recebe do front apenas as datas
+
+    public ResponseEntity<String> consultaFuncaoMaisRecorrente(
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataInicial,
+
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataFinal){
+
+        if(dataInicial == null || dataFinal == null){
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<Time> todosOsTimes = timeRepository.findAll();
+
+        String funcaoMaisRecorrente = apiService.funcaoMaisRecorrente(dataInicial, dataFinal, todosOsTimes);
+
+        if (funcaoMaisRecorrente == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(funcaoMaisRecorrente);
 
     }
 }

@@ -196,7 +196,42 @@ public class ApiService {
      */
     public String funcaoMaisRecorrente(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
         // TODO Implementar método seguindo as instruções!
-        return null;
+
+        if (todosOsTimes == null) {
+            return null;
+        }
+
+        Map<String, Integer> quantidadePorFuncao = new HashMap<>();
+
+        String funcaoMaisRecorrente = null;
+        int maiorQuantidade = 0;
+
+        for (Time time : todosOsTimes) {
+
+            boolean dentroDoPeriodo = time.getData().isBefore(dataFinal) && time.getData().isAfter(dataInicial);
+
+            if (dentroDoPeriodo) {
+
+                for (ComposicaoTime composicao : time.getComposicaoTime()) {
+
+                    Integrante integrante = composicao.getIntegrante();
+                    String funcao = integrante.getFuncao();
+
+                    int novaQuantidade = quantidadePorFuncao.getOrDefault(funcao, 0) + 1;
+
+                    quantidadePorFuncao.put(funcao, novaQuantidade);
+
+                    if (novaQuantidade > maiorQuantidade) {
+                        maiorQuantidade = novaQuantidade;
+                        funcaoMaisRecorrente = funcao;
+                    }
+
+                }
+
+            }
+        }
+
+        return funcaoMaisRecorrente;
     }
 
     /**
