@@ -6,7 +6,8 @@ const ENDPOINTS = {
     cadastrarTime: "/time/cadastro",
     timeDaData: "/time/consultaTimeDaData",
     integranteMaisUsado: "/integrante/consultaIntegranteMaisUsado",
-    integrantesDoTimeMaisRecorrente: "/integrante/consultaIntegrantesDoTimeMaisRecorrente"
+    integrantesDoTimeMaisRecorrente: "/integrante/consultaIntegrantesDoTimeMaisRecorrente",
+    funcaoMaisRecorrente: "/integrante/consultaFuncaoMaisRecorrente"
 };
 
 const linksDoMenu = document.querySelectorAll("[data-tela]");
@@ -631,6 +632,24 @@ async function buscarConsulta(url) {
     return response.json();
 }
 
+async function buscarConsultaTexto(url) {
+
+    const response = await fetch(url);
+
+    if (response.status === 404) {
+        return null;
+    }
+
+    if (!response.ok) {
+        throw new Error("Não foi possível concluir a consulta.");
+    }
+
+    const texto = await response.text();
+
+    return texto || null;
+}
+
+
 document.getElementById("botaoTimeDaData").addEventListener(
     "click",
     async () => {
@@ -783,6 +802,45 @@ document.getElementById("botaoIntegrantesDoTimeMaisRecorrente").addEventListener
 
             lista.replaceChildren(
                 criarElemento("li", "erro-lista", erro.message)
+            );
+        }
+    }
+);
+
+document.getElementById("botaoFuncaoMaisRecorrente").addEventListener(
+    "click",
+    async () => {
+
+        const dataInicial = document.getElementById("dataInicialFuncaoMaisRecorrente").value;
+        const dataFinal = document.getElementById("dataFinalFuncaoMaisRecorrente").value;
+
+        const resultado = document.getElementById("resultadoFuncaoMaisRecorrente");
+
+        try {
+
+            const query = construirQueryString({ dataInicial, dataFinal });
+
+            const funcao = await buscarConsultaTexto(
+                `${ENDPOINTS.funcaoMaisRecorrente}${query}`
+            );
+
+            if (!funcao) {
+
+                resultado.replaceChildren(
+                    criarElemento("span", "resultado-subtitulo", "Nenhuma função encontrada no período.")
+                );
+
+                return;
+            }
+
+            resultado.replaceChildren(
+                criarElemento("span", "resultado-titulo", exibirFuncao(funcao))
+            );
+
+        } catch (erro) {
+
+            resultado.replaceChildren(
+                criarElemento("span", "resultado-subtitulo erro-lista", erro.message)
             );
         }
     }
