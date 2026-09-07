@@ -4,7 +4,8 @@ const ENDPOINTS = {
     cadastrarIntegrante: "/integrante/cadastro",
     listarIntegrantes: "/integrante/consultaIntegrantes",
     cadastrarTime: "/time/cadastro",
-    timeDaData: "/time/consultaTimeDaData"
+    timeDaData: "/time/consultaTimeDaData",
+    integranteMaisUsado: "/integrante/consultaIntegranteMaisUsado"
 };
 
 const linksDoMenu = document.querySelectorAll("[data-tela]");
@@ -623,9 +624,6 @@ document.getElementById("botaoTimeDaData").addEventListener(
         const corpoTabela =
             document.querySelector("#tabelaTimeDaData tbody");
 
-        corpoTabela.innerHTML = "";
-        nomeTime.textContent = "";
-
         if (!data) {
 
             const linha = document.createElement("tr");
@@ -633,7 +631,9 @@ document.getElementById("botaoTimeDaData").addEventListener(
 
             celula.colSpan = 2;
             linha.appendChild(celula);
-            corpoTabela.appendChild(linha);
+
+            nomeTime.textContent = "";
+            corpoTabela.replaceChildren(linha);
 
             return;
         }
@@ -653,14 +653,14 @@ document.getElementById("botaoTimeDaData").addEventListener(
 
                 celula.colSpan = 2;
                 linha.appendChild(celula);
-                corpoTabela.appendChild(linha);
+
+                nomeTime.textContent = "";
+                corpoTabela.replaceChildren(linha);
 
                 return;
             }
 
-            nomeTime.textContent = time.nomeDoClube;
-
-            time.composicaoTime.forEach(composicao => {
+            const linhas = time.composicaoTime.map(composicao => {
 
                 const linha = document.createElement("tr");
 
@@ -672,8 +672,11 @@ document.getElementById("botaoTimeDaData").addEventListener(
                     criarElemento("td", "", exibirFuncao(composicao.integrante.funcao))
                 );
 
-                corpoTabela.appendChild(linha);
+                return linha;
             });
+
+            nomeTime.textContent = time.nomeDoClube;
+            corpoTabela.replaceChildren(...linhas);
 
         } catch (erro) {
 
@@ -682,7 +685,48 @@ document.getElementById("botaoTimeDaData").addEventListener(
 
             celula.colSpan = 2;
             linha.appendChild(celula);
-            corpoTabela.appendChild(linha);
+
+            corpoTabela.replaceChildren(linha);
+        }
+    }
+);
+
+document.getElementById("botaoIntegranteMaisUsado").addEventListener(
+    "click",
+    async () => {
+
+        const dataInicial = document.getElementById("dataInicialIntegranteMaisUsado").value;
+        const dataFinal = document.getElementById("dataFinalIntegranteMaisUsado").value;
+
+        const resultado = document.getElementById("resultadoIntegranteMaisUsado");
+
+        try {
+
+            const query = construirQueryString({ dataInicial, dataFinal });
+
+            const integrante = await buscarConsulta(
+                `${ENDPOINTS.integranteMaisUsado}${query}`
+            );
+
+            if (!integrante) {
+
+                resultado.replaceChildren(
+                    criarElemento("span", "resultado-subtitulo", "Nenhum integrante encontrado no período.")
+                );
+
+                return;
+            }
+
+            resultado.replaceChildren(
+                criarElemento("span", "resultado-titulo", integrante.nome),
+                criarElemento("span", "resultado-subtitulo", exibirFuncao(integrante.funcao))
+            );
+
+        } catch (erro) {
+
+            resultado.replaceChildren(
+                criarElemento("span", "resultado-subtitulo erro-lista", erro.message)
+            );
         }
     }
 );
