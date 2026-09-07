@@ -5,7 +5,8 @@ const ENDPOINTS = {
     listarIntegrantes: "/integrante/consultaIntegrantes",
     cadastrarTime: "/time/cadastro",
     timeDaData: "/time/consultaTimeDaData",
-    integranteMaisUsado: "/integrante/consultaIntegranteMaisUsado"
+    integranteMaisUsado: "/integrante/consultaIntegranteMaisUsado",
+    integrantesDoTimeMaisRecorrente: "/integrante/consultaIntegrantesDoTimeMaisRecorrente"
 };
 
 const linksDoMenu = document.querySelectorAll("[data-tela]");
@@ -748,6 +749,44 @@ document.getElementById("botaoIntegranteMaisUsado").addEventListener(
     }
 );
 
+document.getElementById("botaoIntegrantesDoTimeMaisRecorrente").addEventListener(
+    "click",
+    async () => {
+
+        const dataInicial = document.getElementById("dataInicialTimeMaisRecorrente").value;
+        const dataFinal = document.getElementById("dataFinalTimeMaisRecorrente").value;
+
+        const lista = document.getElementById("listaTimeMaisRecorrente");
+
+        try {
+
+            const query = construirQueryString({ dataInicial, dataFinal });
+
+            const nomes = await buscarConsulta(
+                `${ENDPOINTS.integrantesDoTimeMaisRecorrente}${query}`
+            );
+
+            if (!nomes || nomes.length === 0) {
+
+                lista.replaceChildren(
+                    criarElemento("li", "", "Nenhum time encontrado no período.")
+                );
+
+                return;
+            }
+
+            const itens = nomes.map(nome => criarElemento("li", "", nome));
+
+            lista.replaceChildren(...itens);
+
+        } catch (erro) {
+
+            lista.replaceChildren(
+                criarElemento("li", "erro-lista", erro.message)
+            );
+        }
+    }
+);
 
 const telaInicial =
     window.location.hash.replace("#", "");
