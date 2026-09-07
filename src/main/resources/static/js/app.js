@@ -7,7 +7,8 @@ const ENDPOINTS = {
     timeDaData: "/time/consultaTimeDaData",
     integranteMaisUsado: "/integrante/consultaIntegranteMaisUsado",
     integrantesDoTimeMaisRecorrente: "/integrante/consultaIntegrantesDoTimeMaisRecorrente",
-    funcaoMaisRecorrente: "/integrante/consultaFuncaoMaisRecorrente"
+    funcaoMaisRecorrente: "/integrante/consultaFuncaoMaisRecorrente",
+    clubeMaisRecorrente: "/time/consultaClubeMaisRecorrente"
 };
 
 const linksDoMenu = document.querySelectorAll("[data-tela]");
@@ -845,6 +846,46 @@ document.getElementById("botaoFuncaoMaisRecorrente").addEventListener(
         }
     }
 );
+
+document.getElementById("botaoClubeMaisRecorrente").addEventListener(
+    "click",
+    async () => {
+
+        const dataInicial = document.getElementById("dataInicialClubeMaisRecorrente").value;
+        const dataFinal = document.getElementById("dataFinalClubeMaisRecorrente").value;
+
+        const resultado = document.getElementById("resultadoClubeMaisRecorrente");
+
+        try {
+
+            const query = construirQueryString({ dataInicial, dataFinal });
+
+            const clube = await buscarConsultaTexto(
+                `${ENDPOINTS.clubeMaisRecorrente}${query}`
+            );
+
+            if (!clube) {
+
+                resultado.replaceChildren(
+                    criarElemento("span", "resultado-subtitulo", "Nenhum clube encontrado no período.")
+                );
+
+                return;
+            }
+
+            resultado.replaceChildren(
+                criarElemento("span", "resultado-titulo", clube)
+            );
+
+        } catch (erro) {
+
+            resultado.replaceChildren(
+                criarElemento("span", "resultado-subtitulo erro-lista", erro.message)
+            );
+        }
+    }
+);
+
 
 const telaInicial =
     window.location.hash.replace("#", "");
