@@ -87,15 +87,28 @@ function exibirMensagem(elemento, texto, tipo) {
 
 function ordenarIntegrantes(integrantes) {
 
-    return integrantes.sort((primeiro, segundo) =>
-        primeiro.nome.localeCompare(
+    return integrantes.sort((primeiro, segundo) => {
+
+        const comparacaoFuncao = primeiro.funcao.localeCompare(
+            segundo.funcao,
+            "pt-BR",
+            {
+                sensitivity: "base"
+            }
+        );
+
+        if (comparacaoFuncao !== 0) {
+            return comparacaoFuncao;
+        }
+
+        return primeiro.nome.localeCompare(
             segundo.nome,
             "pt-BR",
             {
                 sensitivity: "base"
             }
-        )
-    );
+        );
+    });
 }
 
 
@@ -145,7 +158,10 @@ function atualizarSelectIntegrantes() {
         opcao.value = integrante.id;
 
         opcao.textContent =
-            `${integrante.nome} - ${integrante.funcao}`;
+            opcao.textContent =
+            `${exibirFuncao(integrante.funcao)} - ${integrante.nome}`;
+
+
 
         selectIntegrante.appendChild(opcao);
     });
@@ -199,7 +215,8 @@ function atualizarListaDeSelecionados() {
             document.createElement("span");
 
         funcao.className = "coluna-funcao";
-        funcao.textContent = integrante.funcao;
+        funcao.textContent = exibirFuncao(integrante.funcao);
+
 
         const botaoRemover =
             document.createElement("button");

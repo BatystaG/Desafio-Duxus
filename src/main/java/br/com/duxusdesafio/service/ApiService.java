@@ -59,7 +59,7 @@ public class ApiService {
         }
 
         String nome = dto.getNome().trim();
-        String funcao = dto.getFuncao().trim();
+        String funcao = dto.getFuncao().trim().toUpperCase(Locale.ROOT);
 
         if (!FUNCOES_VALIDAS.contains(funcao)) {
             throw new ResponseStatusException(
