@@ -8,7 +8,8 @@ const ENDPOINTS = {
     integranteMaisUsado: "/integrante/consultaIntegranteMaisUsado",
     integrantesDoTimeMaisRecorrente: "/integrante/consultaIntegrantesDoTimeMaisRecorrente",
     funcaoMaisRecorrente: "/integrante/consultaFuncaoMaisRecorrente",
-    clubeMaisRecorrente: "/time/consultaClubeMaisRecorrente"
+    clubeMaisRecorrente: "/time/consultaClubeMaisRecorrente",
+    contagemClubesNoPeriodo: "/time/contagemClubesNoPeriodo"
 };
 
 const linksDoMenu = document.querySelectorAll("[data-tela]");
@@ -603,6 +604,46 @@ function criarElemento(tag, className, texto) {
     return elemento;
 }
 
+function renderizarGraficoBarras(container, dados) {
+
+    const entradas = Object.entries(dados)
+        .sort((a, b) => b[1] - a[1]);
+
+    if (entradas.length === 0) {
+
+        container.replaceChildren(
+            criarElemento("p", "estado-lista", "Nenhum resultado encontrado no período.")
+        );
+
+        return;
+    }
+
+    const maiorValor = Math.max(...entradas.map(([, valor]) => valor));
+
+    const itens = entradas.map(([rotulo, valor]) => {
+
+        const item = criarElemento("div", "barra-item");
+
+        const rotuloEl = criarElemento("span", "barra-rotulo", rotulo);
+
+        const trilha = criarElemento("div", "barra-trilha");
+        const preenchimento = criarElemento("div", "barra-preenchimento");
+
+        preenchimento.style.width = `${(valor / maiorValor) * 100}%`;
+
+        trilha.appendChild(preenchimento);
+
+        const valorEl = criarElemento("span", "barra-valor", String(valor));
+
+        item.append(rotuloEl, trilha, valorEl);
+
+        return item;
+    });
+
+    container.replaceChildren(...itens);
+}
+
+
 function construirQueryString(parametros) {
 
     const query = new URLSearchParams();
@@ -885,6 +926,35 @@ document.getElementById("botaoClubeMaisRecorrente").addEventListener(
         }
     }
 );
+
+document.getElementById("botaoClubesPeriodo").addEventListener(
+    "click",
+    async () => {
+
+        const dataInicial = document.getElementById("dataInicialClubesPeriodo").value;
+        const dataFinal = document.getElementById("dataFinalClubesPeriodo").value;
+
+        const grafico = document.getElementById("graficoClubesPeriodo");
+
+        try {
+
+            const query = construirQueryString({ dataInicial, dataFinal });
+
+            const contagem = await buscarConsulta(
+                `${ENDPOINTS.contagemClubesNoPeriodo}${query}`
+            );
+
+            renderizarGraficoBarras(grafico, contagem || {});
+
+        } catch (erro) {
+
+            grafico.replaceChildren(
+                criarElemento("p", "estado-lista erro-lista", erro.message)
+            );
+        }
+    }
+);
+
 
 
 const telaInicial =
