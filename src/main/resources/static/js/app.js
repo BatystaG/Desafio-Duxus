@@ -9,7 +9,8 @@ const ENDPOINTS = {
     integrantesDoTimeMaisRecorrente: "/integrante/consultaIntegrantesDoTimeMaisRecorrente",
     funcaoMaisRecorrente: "/integrante/consultaFuncaoMaisRecorrente",
     clubeMaisRecorrente: "/time/consultaClubeMaisRecorrente",
-    contagemClubesNoPeriodo: "/time/contagemClubesNoPeriodo"
+    contagemClubesNoPeriodo: "/time/contagemClubesNoPeriodo",
+    contagemFuncao: "/integrante/consultaContagemFuncao"
 };
 
 const linksDoMenu = document.querySelectorAll("[data-tela]");
@@ -955,7 +956,53 @@ document.getElementById("botaoClubesPeriodo").addEventListener(
     }
 );
 
+document.querySelectorAll(".botao-limpar-datas").forEach(botao => {
 
+    botao.addEventListener("click", () => {
+
+        const cartao = botao.closest(".cartao-consulta");
+
+        cartao.querySelectorAll('input[type="date"]').forEach(input => {
+            input.value = "";
+        });
+    });
+});
+
+document.getElementById("botaoContagemFuncao").addEventListener(
+    "click",
+    async () => {
+
+        const dataInicial = document.getElementById("dataInicialContagemFuncao").value;
+        const dataFinal = document.getElementById("dataFinalContagemFuncao").value;
+
+        const grafico = document.getElementById("graficoContagemFuncao");
+
+        try {
+
+            const query = construirQueryString({ dataInicial, dataFinal });
+
+            const contagem = await buscarConsulta(
+                `${ENDPOINTS.contagemFuncao}${query}`
+            );
+
+            const dadosFormatados = {};
+
+            if (contagem) {
+                Object.entries(contagem).forEach(([funcao, valor]) => {
+                    dadosFormatados[exibirFuncao(funcao)] = valor;
+                });
+            }
+
+            renderizarGraficoBarras(grafico, dadosFormatados);
+
+        } catch (erro) {
+
+            grafico.replaceChildren(
+                criarElemento("p", "estado-lista erro-lista", erro.message)
+            );
+        }
+    }
+);
 
 const telaInicial =
     window.location.hash.replace("#", "");

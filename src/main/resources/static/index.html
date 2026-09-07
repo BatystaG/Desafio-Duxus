@@ -61,8 +61,7 @@
                         <div class="campo">
                             <label for="nomeIntegrante">Nome</label>
 
-                            <input type="text" id="nomeIntegrante" maxlength="100" placeholder="Ex.: yANXNZ"
-                                required>
+                            <input type="text" id="nomeIntegrante" maxlength="100" placeholder="Ex.: yANXNZ" required>
                         </div>
 
                         <div class="campo">
@@ -183,10 +182,15 @@
                                 </div>
                             </div>
 
-                            <button class="botao-consultar botao-consultar--bloco" type="button"
-                                id="botaoIntegranteMaisUsado">
-                                Consultar
-                            </button>
+                            <div class="acoes-consulta">
+                                <button class="botao-consultar botao-consultar--bloco" type="button"
+                                    id="botaoIntegranteMaisUsado">
+                                    Consultar
+                                </button>
+                                <button class="botao-limpar-datas" type="button">
+                                    Limpar datas
+                                </button>
+                            </div>
 
                             <div class="resultado-consulta" id="resultadoIntegranteMaisUsado">
                                 <span class="resultado-subtitulo">Selecione um período e consulte.</span>
@@ -207,10 +211,15 @@
                                 </div>
                             </div>
 
-                            <button class="botao-consultar botao-consultar--bloco" type="button"
-                                id="botaoFuncaoMaisRecorrente">
-                                Consultar
-                            </button>
+                            <div class="acoes-consulta">
+                                <button class="botao-consultar botao-consultar--bloco" type="button"
+                                    id="botaoFuncaoMaisRecorrente">
+                                    Consultar
+                                </button>
+                                <button class="botao-limpar-datas" type="button">
+                                    Limpar datas
+                                </button>
+                            </div>
 
                             <div class="resultado-consulta" id="resultadoFuncaoMaisRecorrente">
                                 <span class="resultado-subtitulo">Selecione um período e consulte.</span>
@@ -231,10 +240,15 @@
                                 </div>
                             </div>
 
-                            <button class="botao-consultar botao-consultar--bloco" type="button"
-                                id="botaoClubeMaisRecorrente">
-                                Consultar
-                            </button>
+                            <div class="acoes-consulta">
+                                <button class="botao-consultar botao-consultar--bloco" type="button"
+                                    id="botaoClubeMaisRecorrente">
+                                    Consultar
+                                </button>
+                                <button class="botao-limpar-datas" type="button">
+                                    Limpar datas
+                                </button>
+                            </div>
 
                             <div class="resultado-consulta" id="resultadoClubeMaisRecorrente">
                                 <span class="resultado-subtitulo">Selecione um período e consulte.</span>
@@ -255,6 +269,9 @@
                                 </div>
                                 <button class="botao-consultar" type="button" id="botaoTimeDaData">
                                     Consultar
+                                </button>
+                                <button class="botao-limpar-datas" type="button">
+                                    Limpar datas
                                 </button>
                             </div>
 
@@ -288,9 +305,10 @@
                                     <input type="date" id="dataFinalTimeMaisRecorrente">
                                 </div>
                                 <button class="botao-consultar" type="button" id="botaoIntegrantesDoTimeMaisRecorrente">
-
-
                                     Consultar
+                                </button>
+                                <button class="botao-limpar-datas" type="button">
+                                    Limpar datas
                                 </button>
                             </div>
 
@@ -318,6 +336,9 @@
                                 <button class="botao-consultar" type="button" id="botaoClubesPeriodo">
                                     Consultar
                                 </button>
+                                <button class="botao-limpar-datas" type="button">
+                                    Limpar datas
+                                </button>
                             </div>
 
                             <div class="grafico-barras" id="graficoClubesPeriodo">
@@ -339,6 +360,9 @@
                                 </div>
                                 <button class="botao-consultar" type="button" id="botaoContagemFuncao">
                                     Consultar
+                                </button>
+                                <button class="botao-limpar-datas" type="button">
+                                    Limpar datas
                                 </button>
                             </div>
 

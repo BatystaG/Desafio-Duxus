@@ -476,13 +476,40 @@ body {
     transition: background-color 0.2s ease;
 }
 
+.acoes-consulta {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.botao-limpar-datas {
+    height: 42px;
+    padding: 0 16px;
+    border: 2px solid var(--cor-laranja);
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--cor-laranja);
+    font-family: "Russo One", sans-serif;
+    font-size: 14px;
+    white-space: nowrap;
+    transition:
+            background-color 0.2s ease,
+            color 0.2s ease;
+}
+
+.botao-limpar-datas:hover {
+    background-color: var(--cor-laranja);
+    color: var(--cor-azul);
+}
+
+
 .botao-consultar:hover {
     background-color: #e98900;
 }
 
 .botao-consultar--bloco {
-    width: 100%;
-    margin-top: 4px;
+    flex: 1;
 }
 
 .resultado-consulta {
